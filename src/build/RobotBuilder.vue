@@ -36,6 +36,23 @@
         <button @click="selectNextBase()" class="next-selector">&#9658;</button>
       </div>
     </div>
+    <div>
+    <h1> Cart </h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Robot</th>
+          <th class="cost">Cost</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr v-for="(robot, index) in cart" :key="index">
+            <td> {{robot.head.title}}</td>
+            <td class="cost">{{robot.cost}}</td>
+          </tr>
+        </tbody>
+    </table>
+    </div>
   </div>
 </template>
 
@@ -57,6 +74,7 @@ export default {
   data() { // data object
     return {
       availableParts,
+      cart: [],
       selectedHeadIndex: 0,
       selectedLeftArmIndex: 0,
       selectedTorsoIndex: 0,
@@ -71,7 +89,7 @@ export default {
         leftarm: availableParts.arms[this.selectedLeftArmIndex],
         torso: availableParts.torsos[this.selectedTorsoIndex],
         rightarm: availableParts.arms[this.selectedRightArmIndex],
-        base: availableParts.bases[this.selectedRightArmIndex],
+        base: availableParts.bases[this.selectedBaseIndex],
       };
     },
   },
@@ -136,13 +154,14 @@ export default {
         availableParts.bases.length,
       );
     },
-    addtoCart() {
+    addToCart() {
       const robot = this.selectedRobot;
       const cost = robot.head.cost
         + robot.leftarm.cost
         + robot.rightarm.cost
         + robot.torso.cost
         + robot.base.cost;
+      this.cart.push({ ...robot, cost });
     },
   },
 };
@@ -255,5 +274,13 @@ export default {
   width: 220px;
   padding: 3px;
   font-size: 16px;
+}
+td, th {
+  text-align: left;
+  padding: 5px;
+  padding-right: 20px;
+}
+.cost {
+  text-align: right;
 }
 </style>
